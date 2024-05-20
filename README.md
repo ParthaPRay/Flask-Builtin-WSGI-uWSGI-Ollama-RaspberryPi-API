@@ -29,7 +29,7 @@ Ollama is running
 /home/pi/Desktop
 
 
-[Optional but Important]
+(Optional but Important)
 
 sudo apt-get update
 sudo apt-get upgrade
@@ -77,6 +77,8 @@ pip3 install -r requirements.txt
 sudo gedit flask1.py
 
 
+```python
+
 from flask import Flask, request, jsonify
 import requests
 
@@ -105,7 +107,7 @@ def generate():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
+```
 
 
 # Activate the virtual environment:
