@@ -39,28 +39,31 @@ sudo apt-get install python3-venv
 
 # Create a new project directory and go inside the project directory:
 
-
+```
 mkdir flask-server-1
 
 cd flask-server-1
-
+```
 
 # Create a virtual environment:
 
 Create a virtual environment named ‘flask1’ or any other name 
 
-
+```
 python3 -m venv flask1
-
+```
 
 # Activate the virtual environment:
 
-
+```
 source flask1/bin/activate
+```
 
 # Update / create a ‘requirements.txt’ file to update with necessary python package names:
 
+```
 sudo gedit requirements.txt
+```
 
 Then place the packages (e.g., flask, requests etc. into it) that are needed to install and run the application
 
@@ -68,14 +71,16 @@ Save it
 
 Then 
 
+```
 pip3 install -r requirements.txt
-
+```
 
 
 # Write the application code: 
 
+```
 sudo gedit flask1.py
-
+```
 
 ```python
 
@@ -114,24 +119,26 @@ if __name__ == '__main__':
 
  Give full path
 
+```
 source ~/Desktop/flask-server-1/flask1/bin/activate
-
+```
 
 # Run the application python file ‘flask1.py’ ‘’ created above”:
 
+```
 python3 flask1.py
-
+```
 
 The server must be running and should show below:
 
-
+```
 * Serving Flask app 'flask1'
  * Debug mode: off
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://172.16.12.28:5000
-
+```
 
 
 
@@ -145,16 +152,20 @@ Open a New Terminal
 
 Send a POST request using curl:
 
+```
 curl -X POST http://127.0.0.1:5000/generate -H "Content-Type: application/json" -d '{"prompt": "Why is the sky blue?"}'
+```
 
 or
 
+```
 curl -X POST http://127.0.0.1:5000/generate -H "Content-Type: application/json" -d '{
   "prompt": "Why is the sky blue?",
   "options": {
     "temperature": 0.7
   }
 }'
+```
 
 or
 
@@ -167,7 +178,8 @@ Press ‘Ctrl + C’ in the terminal where the server was running
 
 Then 
 
+```
 deactivate
+```
 
-
-After activation of the virtual environment the process can be restarted as per above
+# After activation of the virtual environment the process can be restarted as per above
