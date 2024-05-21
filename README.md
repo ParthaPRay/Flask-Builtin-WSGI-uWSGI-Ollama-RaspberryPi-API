@@ -4,7 +4,9 @@ This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server for *
 
 Flask server **builtin mode** on Raspberry Pi and Ollama qwen:0.5b
 
+The Flask builtin web server runs on http://127.0.0.1:5000
 
+Apache benchmark can be done on this code as mentioned later
 
 *********************************************************************************************** 
 
@@ -315,7 +317,7 @@ etc.
 
 # It creats a CSV file in local directory that saves the test metrics
 
-The name of file is ollama_api_logs.csv
+The name of file is **ollama_api_logs.csv**
 
 # (If needed) Deactivate the virtual environment:
 
@@ -327,4 +329,99 @@ Then
 deactivate
 ```
 
-# After activation of the virtual environment the process can be restarted as per above
+# Apache Benchmark Technqiue
+
+
+* Apache benchmark tools must be installed first (if not installed already)
+
+    ```
+    sudo apt-get install apache2-utils
+    ```
+
+
+* Create a **post_data.json** file in a **sepearte location** than the above virtual environment that should contain the load as below (or put other prompt as per requirement):
+
+  ```
+  {
+    "prompt": "What is 2+2?"
+   }
+  ```
+
+
+* In command line from the location where the above json file is located, run below (change the value after -n and -c accordingly):
+
+    ```
+    ab -n 10 -c 5  -p post_data.json -T application/json -l http://127.0.0.1:5000/generate
+    ```
+
+      * -n:  Total number of requests to perform.
+
+             For example, **-n 10** represents 10 requests to perform.
+   
+      * -c: Number of multiple requests to perform at a time (concurrency level).
+
+             For example, **-c 5** represents 5 concurency level.
+
+      * -p: File containing the data to POST
+
+             For example, **-p post_data.json** represents post_data.json is the data to POST
+
+      * -T: Content-Type header to send with the requests.
+
+             For example, **-T application/json** represents Content-Type header to send with the requests.
+
+      * http://127.0.0.1:5000/generate: The URL of your API endpoint.
+
+
+     The ouput will vary, you may something similar to below:
+
+
+  ```
+This is ApacheBench, Version 2.3 <$Revision: 1913912 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 127.0.0.1 (be patient).....done
+
+
+Server Software:        Werkzeug/3.0.3
+Server Hostname:        127.0.0.1
+Server Port:            5000
+
+Document Path:          /generate
+Document Length:        Variable
+
+Concurrency Level:      5
+Time taken for tests:   19.188 seconds
+Complete requests:      10
+Failed requests:        0
+Total transferred:      7070 bytes
+Total body sent:        1850
+HTML transferred:       5410 bytes
+Requests per second:    0.52 [#/sec] (mean)
+Time per request:       9593.825 [ms] (mean)
+Time per request:       1918.765 [ms] (mean, across all concurrent requests)
+Transfer rate:          0.36 [Kbytes/sec] received
+                        0.09 kb/s sent
+                        0.45 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.3      0       1
+Processing:  1441 6412 2682.6   7164    9890
+Waiting:     1425 6399 2683.4   7150    9879
+Total:       1442 6412 2682.3   7164    9890
+
+Percentage of the requests served within a certain time (ms)
+  50%   7164
+  66%   7530
+  75%   8960
+  80%   9409
+  90%   9890
+  95%   9890
+  98%   9890
+  99%   9890
+ 100%   9890 (longest request)
+  ```
+
+
