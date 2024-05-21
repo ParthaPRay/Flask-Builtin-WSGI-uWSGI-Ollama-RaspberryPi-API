@@ -1,7 +1,8 @@
 # Flask-Ollama-RaspberryPi-API
-This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server.
 
-Flask server on Raspberry Pi and Ollama qwen:0.5b
+This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server for **builtin** mode.
+
+Flask server **builtin mode** on Raspberry Pi and Ollama qwen:0.5b
 
 
 
