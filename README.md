@@ -373,55 +373,10 @@ deactivate
       * http://127.0.0.1:5000/generate: The URL of your API endpoint.
 
 
-     The ouput will vary, you may something similar to below:
+     The **output** will vary, you may something similar to below:
 
 
-  ```
-This is ApacheBench, Version 2.3 <$Revision: 1913912 $>
-Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
-Licensed to The Apache Software Foundation, http://www.apache.org/
+      ![image](https://github.com/ParthaPRay/Flask-Builtin-Ollama-RaspberryPi-API/assets/1689639/0feee55c-6a12-4fc6-a47b-69b6ad989085)
 
-Benchmarking 127.0.0.1 (be patient).....done
-
-
-Server Software:        Werkzeug/3.0.3
-Server Hostname:        127.0.0.1
-Server Port:            5000
-
-Document Path:          /generate
-Document Length:        Variable
-
-Concurrency Level:      5
-Time taken for tests:   19.188 seconds
-Complete requests:      10
-Failed requests:        0
-Total transferred:      7070 bytes
-Total body sent:        1850
-HTML transferred:       5410 bytes
-Requests per second:    0.52 [#/sec] (mean)
-Time per request:       9593.825 [ms] (mean)
-Time per request:       1918.765 [ms] (mean, across all concurrent requests)
-Transfer rate:          0.36 [Kbytes/sec] received
-                        0.09 kb/s sent
-                        0.45 kb/s total
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    0   0.3      0       1
-Processing:  1441 6412 2682.6   7164    9890
-Waiting:     1425 6399 2683.4   7150    9879
-Total:       1442 6412 2682.3   7164    9890
-
-Percentage of the requests served within a certain time (ms)
-  50%   7164
-  66%   7530
-  75%   8960
-  80%   9409
-  90%   9890
-  95%   9890
-  98%   9890
-  99%   9890
- 100%   9890 (longest request)
-  ```
 
 
