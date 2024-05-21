@@ -379,5 +379,7 @@ deactivate
   ![Untitled](https://github.com/ParthaPRay/Flask-Builtin-Ollama-RaspberryPi-API/assets/1689639/06443b38-9328-4181-941f-8af002b4a4e8)
 
 
+# Data Collection
 
+Collect the logged data into the csv file and also look into the Apache benchmark output from the terminal.
 
