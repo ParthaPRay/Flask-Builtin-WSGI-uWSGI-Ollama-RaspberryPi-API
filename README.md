@@ -264,7 +264,7 @@ source ~/Desktop/flask-builtin/flask_builtin/bin/activate
 python3 flask_builtin_v1.py
 ```
 
-The server must be running and should show below:
+The server must be running and should show below (if model changes then model size can be changed):
 
 ```
 Model loaded successfully
