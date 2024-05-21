@@ -4,9 +4,9 @@ This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server for *
 
 Flask server **builtin mode** on Raspberry Pi and Ollama qwen:0.5b
 
-The Flask builtin web server runs on http://127.0.0.1:5000
+The Flask builtin web server runs on **http://127.0.0.1:5000**. The port can be changed at the last line of the main application code.
 
-Apache benchmark can be done on this code as mentioned later
+**Apache benchmark** (ab) can be done on this code as mentioned later.
 
 *********************************************************************************************** 
 
