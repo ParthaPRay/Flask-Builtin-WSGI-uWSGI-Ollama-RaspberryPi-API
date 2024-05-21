@@ -376,7 +376,8 @@ deactivate
      The **output** will vary, you may something similar to below:
 
 
-      ![image](https://github.com/ParthaPRay/Flask-Builtin-Ollama-RaspberryPi-API/assets/1689639/0feee55c-6a12-4fc6-a47b-69b6ad989085)
+  ![Untitled](https://github.com/ParthaPRay/Flask-Builtin-Ollama-RaspberryPi-API/assets/1689639/06443b38-9328-4181-941f-8af002b4a4e8)
+
 
 
 
