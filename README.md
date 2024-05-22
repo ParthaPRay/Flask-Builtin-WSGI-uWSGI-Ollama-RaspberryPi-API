@@ -1,8 +1,8 @@
-# Flask-Builtin-Ollama-RaspberryPi-API
+# Flask-Builtin-WSGI-uWSGI-Ollama-RaspberryPi-API
 
-This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server for **builtin** mode.
+This repo contains Ollama, Flask, Raspberry Pi 4B 8GB RAM based API server for all **builtin, WSGi and uWSGI** modes.
 
-Flask server **builtin mode** on Raspberry Pi and Ollama qwen:0.5b
+Flask server **builtin, WSGi and uWSGI** modes on Raspberry Pi and Ollama qwen:0.5b
 
 The Flask builtin web server runs on **http://127.0.0.1:5000**. The port can be changed at the last line of the main application code.
 
@@ -44,23 +44,23 @@ sudo apt-get install python3-venv
 # Create a new project directory and go inside the project directory:
 
 ```
-mkdir flask-builtin
+mkdir flask
 
-cd flask-builtin
+cd flask
 ```
 
 # Create a virtual environment:
 
-Create a virtual environment named ‘flask_builtin’ or any other name 
+Create a virtual environment named ‘flask’ or any other name 
 
 ```
-python3 -m venv flask_builtin
+python3 -m venv NAMEOFENVIRONMENT
 ```
 
 # Activate the virtual environment:
 
 ```
-source flask_builtin/bin/activate
+source NAMEOFENVIRONMENT/bin/activate
 ```
 
 # Update / create a ‘requirements.txt’ file to update with necessary python package names:
@@ -83,22 +83,41 @@ pip3 install -r requirements.txt
 # Write the application code: 
 
 ```
-sudo gedit flask_builtin.py
+sudo gedit flaskserver.py
 ```
 
 The code is as below:
 
 ```python
+# Flask web server and Ollama python code
+# CSV file is used for metric logging asynchronously
+# CSV file is logged into 'ollama_api_logs.csv'
+# For logging CPU and Memory uage 'psutil' package is needed
+"""
+Separate Thread for CPU Usage: A separate thread measures CPU usage continuously during the request handling.
+Stop Event: The stop event is used to stop the CPU measurement thread after the request is completed.
+Average CPU Usage: The average CPU usage during the request is calculated and logged.
+"""
+# Common 'model_name' variable included for modular approach
+# Handles exit to release all processes at port 5000
+# Date: 22/5/2024
+
+
+
+
+
 from flask import Flask, request, jsonify
 import requests
 import logging
-from logging.handlers import QueueHandler, QueueListener
 from queue import Queue
 import threading
 import psutil
 import time
 import csv
 import os
+import signal
+import sys
+import subprocess
 
 app = Flask(__name__)
 
@@ -240,8 +259,25 @@ def generate():
     except requests.exceptions.RequestException as e:
         return jsonify({'error': str(e)}), 500
 
+def release_port(port):
+    try:
+        output = subprocess.check_output(["sudo", "lsof", "-t", f"-i:{port}"])
+        pids = output.strip().split()
+        for pid in pids:
+            subprocess.check_call(["sudo", "kill", "-9", pid.decode()])
+    except subprocess.CalledProcessError:
+        pass
+
+def signal_handler(sig, frame):
+    print('Stopping server...')
+    release_port(5000)
+    sys.exit(0)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)  # Added to handle SIGTERM for Gunicorn/uWSGI
+    release_port(5000)  # Ensure port 5000 is free before starting
+    app.run(host='0.0.0.0', port=5000, debug=False)  # Disable debug mode for stability
 
 # Ensure the CSV writer thread exits cleanly
 import atexit
@@ -258,36 +294,14 @@ def shutdown():
  Give full path
 
 ```
-source ~/Desktop/flask-builtin/flask_builtin/bin/activate
+source ~/FULL/PATH/bin/activate
 ```
 
-# Run the application python file ‘flask1.py’ ‘’ created above”:
+# Run the application python file ‘flaskserver.py’ ‘’ created above”:
 
 ```
-python3 flask_builtin_v1.py
+python3 flaskserver.py
 ```
-
-The server must be running and should show below (if model changes then model size can be changed):
-
-```
-Model loaded successfully
-Memory Allocated for Model: 262144 bytes
- * Serving Flask app 'flask_builtin_v1'
- * Debug mode: on
-WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.16.12.28:5000
-Press CTRL+C to quit
- * Restarting with stat
-Model loaded successfully
-Memory Allocated for Model: 262144 bytes
- * Debugger is active!
- * Debugger PIN: 139-424-820
-
-```
-
-
 
 
 # Testing of API Call
