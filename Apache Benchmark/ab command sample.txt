@@ -1,0 +1,1 @@
+ab -n 10 -c 5  -p post_data.json -T application/json -l http://127.0.0.1:5000/generate

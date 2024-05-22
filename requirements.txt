@@ -1,4 +1,14 @@
 # Update the packgaes as required
+# 'flask' package is needed for flask server for all builtin, wsgi and uwsgi types
+# 'concurrent-log-handler' package is neede for asynchronous logging of data, otherwise it is optional
+# 'psutil' is needed for logging CPU and Memory usage
+# 'gunicorn' package is required for WSGI service using Gunicorn server
+# 'uwsgi' package is required for uWSGI server
+
+
 
 flask
 requests
+psutil
+gunicorn
+uwsgi
