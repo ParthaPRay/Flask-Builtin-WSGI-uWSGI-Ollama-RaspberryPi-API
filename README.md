@@ -397,3 +397,130 @@ deactivate
 
 Collect the logged data into the csv file and also look into the Apache benchmark output from the terminal.
 
+
+# Manual 
+
+
+
+# Running with Builtin, WSGI and uWSGI on Flask
+
+**Always work under the Virtual Environment**
+
+## 1. Run Builtin Server
+
+```bash
+python3 flaskserver.py
+```
+
+Perform tests on Gunicorn Server by changing the parameters.
+
+---
+
+## 2. Create a `wsgi.py` file (Common for both WSGI and uWSGI Servers)
+
+```python
+# wsgi.py
+# In this code, the filename must be flaskserver.py. The main application file must be in the same folder.
+from flaskserver import app
+
+if __name__ == "__main__":
+    app.run()
+```
+
+## 3. Run Gunicorn Server (WSGI Server)
+
+### 3.1. Run with Gunicorn
+
+Run Gunicorn (wsgi is the name of the `wsgi.py` file where the Gunicorn server code is mentioned) with debug information:
+
+```bash
+gunicorn -w 4 -b 0.0.0.0:5000 wsgi:app
+```
+
+OR
+
+```bash
+gunicorn -w 4 -b 0.0.0.0:5000 --log-level debug --access-logfile - --error-logfile - wsgi:app
+```
+
+Perform tests (curl or ab from another terminal) on Gunicorn (WSGI) Server by changing the parameters. Press `CTRL+C` twice to close.
+
+---
+
+## 4. Running with uWSGI (uWSGI Server)
+
+Use the same `wsgi.py` file for uWSGI as well.
+
+### 4.1. Run below:
+
+#### 4.1.1. Option 1
+
+```bash
+uwsgi --http :5000 --module wsgi:app --processes 4 --threads 2
+```
+
+Run the `stop_uwsgi.sh` script to stop the process at port 5000 from another terminal.
+
+OR
+
+#### 4.1.2. Option 2
+
+Create a `uwsgi.ini` file in the same directory as below (change the processes and threads parameters for each test):
+
+```ini
+[uwsgi]
+module = wsgi:app
+master = true
+processes = 4
+threads = 2
+http = :5000
+die-on-term = true
+logto = ./uwsgilog.log
+```
+
+Run with uWSGI:
+
+```bash
+uwsgi --ini uwsgi.ini
+```
+
+Run the `stop_uwsgi.sh` script to stop the process at port 5000 from another terminal.
+
+Perform tests (curl or ab from another terminal) on uWSGI Server by changing the parameters.
+
+---
+
+## File Structure of the Project Directory for Flask
+
+**Mandatory**
+
+- `flaskserver.py` [for all servers]
+- `requirements.txt` [for all servers to be installed initially, if not installed]
+- `ollama_api_logs.csv` [generated from the flaskserver.py after API calls]
+- `wsgi.py` [for WSGI server (Gunicorn) and uWSGI server (uWSGI)]
+
+**Optional** [for uWSGI Server handling]
+
+- `uwsgi.ini` [for uWSGI server Option 2]
+- `uwsgilog.log` [Output of logs from uwsgi.ini]
+
+**Mandatory to Stop uWSGI Server**
+
+- `stop_uwsgi.sh` [Shell script to stop uWSGI server to release the processes from port 5000]
+
+---
+
+## Always Check Processes at Port 5000 and Process Killing [OPTIONAL]
+
+**Check for any process running at port 5000**
+
+```bash
+sudo lsof -i :5000
+```
+
+**If processes are running at port 5000, then kill them**
+
+```bash
+sudo kill -9 <PID>
+```
+
