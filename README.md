@@ -393,6 +393,46 @@ deactivate
   ![Untitled](https://github.com/ParthaPRay/Flask-Builtin-Ollama-RaspberryPi-API/assets/1689639/06443b38-9328-4181-941f-8af002b4a4e8)
 
 
+
+# WRK Bechmakr technqiue
+
+* Install 'wrk'  for in-depth and sustained load testing, particularly useful for stress testing and identifying performance bottlenecks under high concurrency.
+
+    ```
+    sudo apt-get install wrk
+    ```
+
+* Create a 'post_data.lua' where prompt can be put before each test.
+
+    ```
+    wrk.method = "POST"
+    wrk.body   = '{"prompt": "What is 2+2?"}'
+    wrk.headers["Content-Type"] = "application/json"
+    ```
+
+* Run
+
+    ```
+    wrk -t2 -c4 -d30s -s post_data.lua --latency  http://127.0.0.1:5000/generate
+
+    ```
+
+        -c, --connections: total number of HTTP connections to keep open with
+                           each thread handling N = connections/threads
+        
+        -d, --duration:    duration of the test, e.g. 2s, 2m, 2h
+        
+        -t, --threads:     total number of threads to use
+        
+        -s, --script:      LuaJIT script, here 'post_data.json'
+
+* Output
+
+  The output should be similar to below:
+
+   ![image](https://github.com/ParthaPRay/Flask-Builtin-WSGI-uWSGI-Ollama-RaspberryPi-API/assets/1689639/016df8a0-4610-4af1-81b6-36fdc0dc82c2)
+
+
 # Data Collection
 
 Collect the logged data into the csv file and also look into the Apache benchmark output from the terminal.
