@@ -394,7 +394,7 @@ deactivate
 
 
 
-# WRK Bechmakr technqiue
+# WRK Bechmark technqiue
 
 * Install 'wrk'  for in-depth and sustained load testing, particularly useful for stress testing and identifying performance bottlenecks under high concurrency.
 
