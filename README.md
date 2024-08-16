@@ -564,3 +564,24 @@ sudo lsof -i :5000
 sudo kill -9 <PID>
 ```
 
+
+
+# Troubleshooting
+
+Sometimes, the python3 sanicserver.py may not work due to issue in virtual environment. Then try below things:
+
+1. Run below command to check whether fastapi virtual environemnt is properly installed
+
+pip list | grep flask
+
+2. If above doesnot work, then do follows. Run below commands to remove existing 'fastapi' virtual environment and reinstantiate, then actiavte and then install the rquired python setuptools and requirements.txt packages.
+
+rm -rf flask
+
+python3 -m venv flask
+
+source flask/bin/activate
+
+pip install --upgrade pip setuptools
+
+pip install -r requirements.txt
